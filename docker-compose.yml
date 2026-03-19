@@ -1,0 +1,64 @@
+services:
+
+  frontend:
+    container_name: frontend
+    build:
+      context: ./chatbot_poc_frontend
+      dockerfile: Dockerfile
+    expose:
+      - "5173"
+    volumes:
+      - ./chatbot_poc_frontend:/app
+    environment:
+      API_KEY: "${API_KEY}"
+      NODE_ENV: development
+      CHOKIDAR_USEPOLLING: "true"
+    networks:
+      - internal
+
+  database:
+      image: postgres:16-alpine
+      container_name: database
+      restart: unless-stopped
+      volumes:
+        - ./chat_bot_oltp:/var/lib/postgresql/data
+      expose:
+        - "5432"
+      networks:
+        - internal
+
+  backendapi:
+      container_name: backendapi
+
+      build: 
+        context: ./chatbot_poc_backendapi
+        dockerfile: Dockerfile
+      expose:
+        - "8000"
+      depends_on:
+        - database  
+      deploy:
+        resources:
+          limits:
+            memory: 512M
+      environment:
+        API_KEY: "${API_KEY}"
+        DATABASE_URL: "${DATABASE_URL}"
+        SECRET_KEY: "${SECRET_KEY}"
+      networks:
+        - internal
+
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    container_name: cloudflared
+    restart: unless-stopped
+    command: tunnel --no-autoupdate run --token ${CLOUDFLARE_TUNNEL_TOKEN}
+    depends_on:
+      - frontend
+      - backendapi
+    networks:
+      - internal
+      
+networks:
+  internal:
+    driver: bridge

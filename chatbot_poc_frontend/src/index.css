@@ -1,0 +1,80 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+@layer base {
+  :root {
+    --background: 0 0% 98%;
+    --foreground: 233 63% 27%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 233 63% 27%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 233 63% 27%;
+
+    --primary: 237 63% 27%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 220 14% 96%;
+    --secondary-foreground: 237 63% 27%;
+
+    --muted: 220 14% 96%;
+    --muted-foreground: 220 9% 46%;
+
+    --accent: 43 100% 48%;
+    --accent-foreground: 237 63% 27%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 237 63% 27%;
+
+    --radius: 0.75rem;
+
+    --sidebar-background: 237 63% 27%;
+    --sidebar-foreground: 0 0% 100%;
+    --sidebar-primary: 43 100% 48%;
+    --sidebar-primary-foreground: 237 63% 27%;
+    --sidebar-accent: 237 63% 32%;
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: 237 63% 35%;
+    --sidebar-ring: 43 100% 48%;
+
+    --gold: 43 100% 48%;
+    --gold-foreground: 237 63% 27%;
+    --gold-hover: 43 100% 42%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    font-family: 'Inter', sans-serif;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+  }
+}
+
+@layer utilities {
+  .text-gold {
+    color: hsl(var(--gold));
+  }
+  .bg-gold {
+    background-color: hsl(var(--gold));
+  }
+  .bg-gold-hover:hover {
+    background-color: hsl(var(--gold-hover));
+  }
+}
