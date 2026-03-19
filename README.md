@@ -68,7 +68,7 @@ Vale salientar que mesmo com o código é preciso também do banco de dados com 
 O projeto está sendo executado em ambiente local via:
 
 * **WSL (Ubuntu)**
-* Acesso via link `[meu aplicativo](https://frontend.devpersonalprojects.com/)`
+* Acesso via link: [Meu aplicativo](https://frontend.devpersonalprojects.com/)
 
 
 ---
