@@ -59,8 +59,8 @@ Para subir o ambiente eu rodo:
 ```bash
 sudo -E docker compose up --build
 ```
-
 Vale salientar que mesmo com o código é preciso também do banco de dados com tabelas,  de setar corretamente as variáveis de ambiente, de configurar o cloudflared para conseguir rodar o projeto.
+
 ---
 
 ## 💻 Execução Local
