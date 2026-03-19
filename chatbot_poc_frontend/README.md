@@ -56,7 +56,7 @@ Os serviços incluem:
 
 Para subir o ambiente eu rodo:
 
-```
+```bash
 sudo -E docker compose up --build
 ```
 
