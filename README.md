@@ -157,3 +157,4 @@ Criar uma base robusta para um assistente técnico capaz de:
 - Criar tela para que usuario possa se registrar.
 - Criar layout para manter chats históricos
 - Ajustar backend para criar mecanismo de chat histórico e de memória através desses chats por contexto.
+- Melhorar readme dos subdiretórios
