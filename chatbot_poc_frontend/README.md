@@ -1,73 +1,153 @@
-# Welcome to your Lovable project
+# 📌 Projeto: Chatbot de Risco de Crédito (FastAPI + React + PostgreSQL)
 
-## Project info
+## 🧠 Visão Geral
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+Este projeto implementa um chatbot técnico voltado para **Risco de Crédito e Regulação Bancária**, utilizado como suporte para squads de dados (Cientistas, Engenheiros e PMs) em contexto bancário.
 
-## How can I edit this code?
+A aplicação é fullstack, composta por **backend**, **frontend** e infraestrutura containerizada, com execução local via **WSL (Ubuntu)** e exposição opcional para a web.
 
-There are several ways of editing your application.
+---
 
-**Use Lovable**
+## 🏗️ Arquitetura
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+### 🔧 Backend
 
-Changes made via Lovable will be committed automatically to this repo.
+* Desenvolvido com **FastAPI**
+* Responsável por:
 
-**Use your preferred IDE**
+  * Receber mensagens dos usuários
+  * Processar contexto e histórico de conversas
+  * Utilizar arquitetura **RAG (Retrieval-Augmented Generation)**
+  * Integrar embeddings para busca semântica
+  * Gerar respostas técnicas baseadas em documentos regulatórios
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+---
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+### 🎨 Frontend
 
-Follow these steps:
+* Desenvolvido com **React**
+* Interface de interação com o usuário
+* Consome a API do backend para envio e exibição das mensagens
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+---
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+### 🗄️ Banco de Dados
 
-# Step 3: Install the necessary dependencies.
-npm i
+* **PostgreSQL**
+* Armazena:
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+  * Usuários
+  * Conversas
+  * Histórico de mensagens
+
+---
+
+## 🐳 Infraestrutura
+
+A aplicação é totalmente containerizada utilizando **Docker**.
+
+Os serviços incluem:
+
+* Backend (FastAPI)
+* Frontend (React)
+* Banco de dados (PostgreSQL)
+
+### ▶️ Subindo o ambiente
+
+Para subir o ambiente eu rodo:
+
 ```
+sudo -E docker compose up --build```
 
-**Edit a file directly in GitHub**
+Vale salientar que mesmo com o código é preciso também do banco de dados com tabelas,  de setar corretamente as variáveis de ambiente, de configurar o cloudflared para conseguir rodar o projeto.
+---
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+## 💻 Execução Local
 
-**Use GitHub Codespaces**
+O projeto está sendo executado em ambiente local via:
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+* **WSL (Ubuntu)**
+* Acesso via `localhost`
 
-## What technologies are used for this project?
+Isso permite desenvolvimento e testes locais com isolamento adequado dos serviços.
 
-This project is built with:
+---
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+## 🌐 Exposição Externa
 
-## How can I deploy this project?
+A aplicação pode ser disponibilizada na web utilizando:
 
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
+* **Cloudflared Tunnel**
 
-## Can I connect a custom domain to my Lovable project?
+Essa abordagem permite:
 
-Yes, you can!
+* Expor o serviço local sem abrir portas manualmente
+* Criar uma URL pública segura
+* Facilitar testes e demonstrações
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+---
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+## 🧠 Objetivo de Negócio
+
+O sistema foi projetado para atuar como um **especialista técnico em risco de crédito e regulação bancária**, com foco em:
+
+* **Risco de Crédito**
+
+  * PD (Probability of Default)
+  * LGD (Loss Given Default)
+  * EAD (Exposure at Default)
+  * ECL (Expected Credit Loss)
+
+* **Regulação Bancária**
+
+  * Basileia III
+  * Normativas do BACEN e CMN
+  * IFRS 9
+  * LGPD
+
+* **Dados e Modelagem**
+
+  * Estruturação de dados para risco
+  * Pipelines ETL
+  * Engenharia e ciência de dados aplicadas ao crédito
+
+---
+
+## 🧠 Funcionamento Técnico
+
+O chatbot opera utilizando arquitetura:
+
+### 🔍 RAG (Retrieval-Augmented Generation)
+
+* Documentos regulatórios são convertidos em **embeddings**
+* Armazenados e indexados para busca por similaridade
+* A cada pergunta:
+
+  1. O embedding da query é gerado
+  2. Trechos mais relevantes são recuperados
+  3. Esses dados são usados como contexto
+  4. O modelo gera uma resposta fundamentada
+
+---
+
+## 📦 Tecnologias Utilizadas
+
+* **FastAPI**
+* **React**
+* **PostgreSQL**
+* **Docker / Docker Compose**
+* **Cloudflared Tunnel**
+* Arquitetura **RAG com embeddings**
+
+---
+
+## 🚀 Objetivo do Projeto
+
+Criar uma base robusta para um assistente técnico capaz de:
+
+* Apoiar decisões em risco de crédito
+* Acelerar análises regulatórias
+* Padronizar conhecimento técnico dentro de squads de dados
+* Integrar dados, modelos e regulação em uma única interface
+
+---
