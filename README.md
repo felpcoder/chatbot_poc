@@ -57,9 +57,9 @@ Os serviços incluem:
 Para subir o ambiente eu rodo:
 
 ```bash
-sudo -E docker compose up --build
+sudo -E docker compose down --remove-orphans && sudo -E docker builder prune -a -f && sudo -E docker image prune -a -f && sudo -E docker compose up --build
 ```
-Vale salientar que mesmo com o código é preciso também do banco de dados com tabelas,  de setar corretamente as variáveis de ambiente, de configurar o cloudflared para conseguir rodar o projeto.
+Vale salientar que mesmo com o código é preciso também do banco de dados com tabelas,  de setar corretamente as variáveis de ambiente, de configurar o cloudflared para conseguir rodar o projeto. 
 
 ---
 
@@ -67,7 +67,7 @@ Vale salientar que mesmo com o código é preciso também do banco de dados com 
 
 O projeto está sendo executado em ambiente local via:
 
-* **WSL (Ubuntu)**
+* **VPS Linux - Ubuntu**
 * Acesso via link: [Meu aplicativo](https://frontend.devpersonalprojects.com/)
 
 
@@ -156,5 +156,5 @@ Criar uma base robusta para um assistente técnico capaz de:
 
 - Criar tela para que usuario possa se registrar.
 - Criar layout para manter chats históricos
-- Ajustar backend para criar mecanismo de chat histórico e de memória através desses chats por contexto.
-- Melhorar readme dos subdiretórios
+- Ajustar backend para criar mecanismo de chat histórico e de memória através desses chats por contexto. (criado mecanismo de memoria 27/03)
+- Melhorar documentação em geral (melhorado init_infra 27/03)

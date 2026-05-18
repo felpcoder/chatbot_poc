@@ -19,11 +19,36 @@ interface Message {
 const Chatbot = () => {
   const { user, isAuthenticated } = useAuth();
   const navigate = useNavigate();
-  
+  const [conversationId, setConversationId] = useState<string | null>(null);
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [isTyping, setIsTyping] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
+
+async function fetchLastConversation() {
+  const response = await fetch(
+    "https://backendapi.devpersonalprojects.com/conversations/last",
+    {
+      method: "GET",
+      credentials: "include",
+      headers: {
+        accept: "application/json",
+      },
+    }
+  );
+
+  if (!response.ok) return;
+
+  const data = await response.json();
+
+if (data?.conversation_id !== undefined && data?.conversation_id !== null) {
+      setConversationId(data.conversation_id);
+  }
+}
+
+useEffect(() => {
+  fetchLastConversation();
+}, []);
 
   useEffect(() => {
     if (!isAuthenticated) navigate("/login");
@@ -65,6 +90,7 @@ const Chatbot = () => {
     const currentInput = input; 
     setInput("");
     setIsTyping(true);
+    console.log("conversationId:", conversationId, typeof conversationId);
 
     try {
       const response = await fetch('https://backendapi.devpersonalprojects.com/request_message', {
@@ -76,7 +102,7 @@ const Chatbot = () => {
         credentials: "include", 
         body: JSON.stringify({
           message: currentInput,
-          conversation_id: 1
+          conversation_id: conversationId
         })
       });
       if (!response.ok) throw new Error("Falha na comunicação com o servidor");
@@ -94,7 +120,7 @@ const Chatbot = () => {
     } catch (error) {
       console.error("Erro no fetch:", error);
       setMessages((prev) => [...prev, {
-        id: "error",
+        id: `error-${Date.now()}`,
         role: "assistant",
         content: "❌ **Erro ao processar requisição.** Verifique se o backend Docker está rodando ou se o token expirou.",
         timestamp: new Date(),

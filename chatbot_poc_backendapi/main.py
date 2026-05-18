@@ -140,6 +140,7 @@ async def request_message(
         dict: Resposta do assistente e ID da conversa,
             no formato ``{"resposta_assistente": str, "id_conversa": str}``.
     """
+    print(1)
     crud.create_chat_message(
         db=db,
         id_usuario=current_user.id,
@@ -147,13 +148,20 @@ async def request_message(
         papel="user",
         conteudo=request.message
     )
+    print(2)
 
+    historico = crud.get_recent_chat_history(db,
+                                        id_usuario=current_user.id,
+                                        id_conversa=request.conversation_id)
+    print(3)
     resposta = chat_bot_openai.gerar_resposta(
         request.message,
         request.conversation_id,
-        current_user.id
+        current_user.id,
+        historico
     )
-
+    print(resposta)
+    print(4)
     crud.create_chat_message(
         db=db,
         id_usuario=current_user.id,
@@ -161,7 +169,12 @@ async def request_message(
         papel="assistant",
         conteudo=resposta
     )
-
+    print(5)
+    print({
+        "resposta_assistente": resposta,
+        "id_conversa": request.conversation_id
+    })
+    
     return {
         "resposta_assistente": resposta,
         "id_conversa": request.conversation_id
@@ -192,3 +205,29 @@ def me(current_user: models.Usuario = Depends(get_current_user)) -> schemas.User
         UserOut: Dados públicos do usuário autenticado.
     """
     return schemas.UserOut.from_orm(current_user)
+
+
+@app.get("/conversations/last")
+def get_last_conversation(
+    db: Session = Depends(get_db),
+    current_user: models.Usuario = Depends(get_current_user)
+) -> dict:
+    print(current_user.id)
+    last_conversation = crud.get_last_conversation_by_user(
+        db=db,
+        id_usuario=current_user.id
+    )
+    
+    print({
+        column.name: getattr(last_conversation, column.name)
+        for column in last_conversation.__table__.columns
+    })    
+    
+    if not last_conversation:
+        return {
+            "conversation_id": 0 # Inicia a contagem de conversas do usuário em 0
+        }
+
+    return {
+        "conversation_id": last_conversation.id_conversa + 1 # Incrementa o ID para a próxima conversa 
+    }

@@ -36,7 +36,7 @@ def buscar_chunks(pergunta: str, embeddings_data: list[dict], index: faiss.Index
     return [embeddings_data[i] for i in I[0]]
 
 
-def gerar_resposta(mensagem_usuario: str, id_conversa: str, id_usuario: str, top_k: int = 15) -> str:
+def gerar_resposta(mensagem_usuario: str, id_conversa: str, id_usuario: str, historico: list, top_k: int = 15) -> str:
     """Gera uma resposta técnica fundamentada em RAG para a mensagem do usuário.
 
     Carrega o índice FAISS e os metadados do disco, busca os chunks mais
@@ -49,6 +49,7 @@ def gerar_resposta(mensagem_usuario: str, id_conversa: str, id_usuario: str, top
         id_conversa: Identificador da conversa atual, usado no system prompt
             para manter coerência histórica.
         id_usuario: Identificador do usuário autenticado.
+        historico: Lista de mensagens da conversa atual.
         top_k: Número de chunks recuperados do índice para compor o contexto.
             Padrão: 15.
 
@@ -130,14 +131,18 @@ def gerar_resposta(mensagem_usuario: str, id_conversa: str, id_usuario: str, top
 
             f"HISTÓRICO DA CONVERSA (ID: {id_conversa} | Usuário: {id_usuario}):\n"
             f"Use o histórico para manter coerência técnica, evitando repetir conceitos já explicados.\n"
+            
         )
+        messages = [{"role": "system", "content": system_prompt}]
+        
+        for msg in historico:
+            messages.append({"role": msg.papel, "content": msg.conteudo})            
 
+        messages.append({"role": "user", "content": mensagem_usuario})        
+            
         response = client.chat.completions.create(
             model="gpt-4-turbo",
-            messages=[
-                {"role": "system", "content": system_prompt},
-                {"role": "user", "content": mensagem_usuario}
-            ],
+            messages=messages,
             temperature=0.1,
             max_tokens=4096
         )

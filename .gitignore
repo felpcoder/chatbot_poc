@@ -20,8 +20,8 @@ docker-compose.override.yml
 
 .vscode/
 .idea/
-
-chat_bot_oltp/
+initdb/
+chatbot_poc_banco/
 
 faiss.index
 metadata.json

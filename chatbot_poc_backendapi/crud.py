@@ -121,3 +121,28 @@ def get_recent_chat_history(
         .order_by(models.ChatHistorico.criado_em.desc())\
         .limit(limit)\
         .all()[::-1]  # Inverte para manter a ordem: Pergunta -> Resposta
+        
+        
+def get_last_conversation_by_user(
+    db: Session,
+    id_usuario: int
+) -> models.ChatHistorico | None:
+    """Busca a última conversa criada pelo usuário.
+
+    Aplica filtro por usuário e retorna a conversa mais recente
+    com base em data de criação ou atualização.
+
+    Args:
+        db: Sessão ativa do SQLAlchemy.
+        id_usuario: Identificador do usuário.
+
+    Returns:
+        models.ChatHistorico | None: Última conversa do usuário ou None.
+    """
+
+    return db.query(models.ChatHistorico)\
+        .filter(
+            models.ChatHistorico.id_usuario == id_usuario
+        )\
+        .order_by(models.ChatHistorico.criado_em.desc())\
+        .first()

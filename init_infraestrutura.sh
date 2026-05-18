@@ -37,18 +37,32 @@ sudo docker pull node:24-alpine
 
 # Frontend
 
-git clone https://github.com/felpcoder/chatbot_poc_frontend.git
+git clone https://github.com/felpcoder/chatbot_poc.git
 
-## Para rodar a primeira vez
 
-#Ir até a pasta e executar 
-
+# front end
+# na pasta de frontend
 npm install 
 
 npm run dev
 
-# instalar python venv para backend
-sudo apt install python3.12-venv
 
-#instalar pip
+# backend
+
+sudo apt install python3.12-venv
 sudo apt install pip
+
+
+# salvar backup.sql no diretorio do initdb
+
+# rodar 
+
+cat backup.sql | docker exec -i database psql -U postgres
+
+# precisa do container database rodando para isso
+# precisa setar uma senha desprezível no dockercompose no primeiro run para isso, depois pode retirar a senha do dockercompose
+
+
+# use o comando abaixo para limpar e iniciar o docker compose
+
+sudo -E docker compose down --remove-orphans && sudo -E docker builder prune -a -f && sudo -E docker image prune -a -f && sudo -E docker compose up --build
