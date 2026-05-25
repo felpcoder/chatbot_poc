@@ -217,17 +217,17 @@ def get_last_conversation(
         db=db,
         id_usuario=current_user.id
     )
-    
-    print({
-        column.name: getattr(last_conversation, column.name)
-        for column in last_conversation.__table__.columns
-    })    
-    
+
     if not last_conversation:
         return {
-            "conversation_id": 0 # Inicia a contagem de conversas do usuário em 0
+            "conversation_id": 0
         }
 
+    print({  
+        column.name: getattr(last_conversation, column.name)
+        for column in last_conversation.__table__.columns
+    })
+
     return {
-        "conversation_id": last_conversation.id_conversa + 1 # Incrementa o ID para a próxima conversa 
+        "conversation_id": last_conversation.id_conversa + 1
     }
